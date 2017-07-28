@@ -1,0 +1,24 @@
+dependencies: \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/AppRTCMobile/ios/ARDVideoCallViewController.m \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/AppRTCMobile/ios/ARDVideoCallViewController.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCAudioSession.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCMacros.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/AppRTCMobile/ARDAppClient.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCCameraVideoCapturer.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCVideoCapturer.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCVideoFrame.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCPeerConnection.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCVideoTrack.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCMediaStreamTrack.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/AppRTCMobile/ARDCaptureController.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/AppRTCMobile/ARDSettingsModel.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/AppRTCMobile/ios/ARDVideoCallView.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCCameraPreviewView.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCVideoRenderer.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/AppRTCMobile/ios/ARDStatsView.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCAVFoundationVideoSource.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCVideoSource.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCMediaSource.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCDispatcher.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCLogging.h \
+  /Users/vrv2/Desktop/webrtcLib/AppRTCMobile/Headers/WebRTC/RTCMediaConstraints.h
