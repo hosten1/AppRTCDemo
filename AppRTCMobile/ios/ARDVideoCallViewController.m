@@ -11,18 +11,20 @@
 #import "ARDVideoCallViewController.h"
 
 #import "WebRTC/RTCAudioSession.h"
+#import "WebRTC/RTCCameraVideoCapturer.h"
 
 #import "ARDAppClient.h"
 #import "ARDCaptureController.h"
+#import "ARDFileCaptureController.h"
 #import "ARDSettingsModel.h"
 #import "ARDVideoCallView.h"
-#import "WebRTC/RTCAVFoundationVideoSource.h"
 #import "WebRTC/RTCDispatcher.h"
 #import "WebRTC/RTCLogging.h"
 #import "WebRTC/RTCMediaConstraints.h"
 
 @interface ARDVideoCallViewController () <ARDAppClientDelegate,
-    ARDVideoCallViewDelegate>
+                                          ARDVideoCallViewDelegate,
+                                          RTCAudioSessionDelegate>
 @property(nonatomic, strong) RTCVideoTrack *remoteVideoTrack;
 @property(nonatomic, readonly) ARDVideoCallView *videoCallView;
 @end
@@ -31,6 +33,7 @@
   ARDAppClient *_client;
   RTCVideoTrack *_remoteVideoTrack;
   ARDCaptureController *_captureController;
+  ARDFileCaptureController *_fileCaptureController NS_AVAILABLE_IOS(10);
   AVAudioSessionPortOverride _portOverride;
 }
 
@@ -38,23 +41,14 @@
 @synthesize remoteVideoTrack = _remoteVideoTrack;
 @synthesize delegate = _delegate;
 
-- (instancetype)initForRoom:(NSString *)room
-                 isLoopback:(BOOL)isLoopback
-                isAudioOnly:(BOOL)isAudioOnly
-          shouldMakeAecDump:(BOOL)shouldMakeAecDump
-      shouldUseLevelControl:(BOOL)shouldUseLevelControl
-                   delegate:(id<ARDVideoCallViewControllerDelegate>)delegate {
+- (instancetype)initForRoom:(NSString *)room service:(NSString *)serVice isLoopback:(BOOL)isLoopback delegate:(id<ARDVideoCallViewControllerDelegate>)delegate{
+
   if (self = [super init]) {
     ARDSettingsModel *settingsModel = [[ARDSettingsModel alloc] init];
     _delegate = delegate;
 
-    _client = [[ARDAppClient alloc] initWithDelegate:self];
-    [_client connectToRoomWithId:room
-                        settings:settingsModel
-                      isLoopback:isLoopback
-                     isAudioOnly:isAudioOnly
-               shouldMakeAecDump:shouldMakeAecDump
-           shouldUseLevelControl:shouldUseLevelControl];
+    _client = [[ARDAppClient alloc] initWithService:serVice delegate:self];
+    [_client connectToRoomWithId:room  settings:settingsModel isLoopback:isLoopback];
   }
   return self;
 }
@@ -65,6 +59,13 @@
   _videoCallView.statusLabel.text =
       [self statusTextForState:RTCIceConnectionStateNew];
   self.view = _videoCallView;
+
+  RTCAudioSession *session = [RTCAudioSession sharedInstance];
+  [session addDelegate:self];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+  return UIInterfaceOrientationMaskAll;
 }
 
 #pragma mark - ARDAppClientDelegate
@@ -106,6 +107,16 @@
 }
 
 - (void)appClient:(ARDAppClient *)client
+    didCreateLocalFileCapturer:(RTCFileVideoCapturer *)fileCapturer {
+#if defined(__IPHONE_11_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0)
+  if (@available(iOS 10, *)) {
+    _fileCaptureController = [[ARDFileCaptureController alloc] initWithCapturer:fileCapturer];
+    [_fileCaptureController startCapture];
+  }
+#endif
+}
+
+- (void)appClient:(ARDAppClient *)client
     didReceiveLocalVideoTrack:(RTCVideoTrack *)localVideoTrack {
 }
 
@@ -125,8 +136,8 @@
          didError:(NSError *)error {
   NSString *message =
       [NSString stringWithFormat:@"%@", error.localizedDescription];
-  [self showAlertWithMessage:message];
   [self hangup];
+  [self showAlertWithMessage:message];
 }
 
 #pragma mark - ARDVideoCallViewDelegate
@@ -166,6 +177,13 @@
   _videoCallView.statsView.hidden = NO;
 }
 
+#pragma mark - RTCAudioSessionDelegate
+
+- (void)audioSession:(RTCAudioSession *)audioSession
+    didDetectPlayoutGlitch:(int64_t)totalNumberOfGlitches {
+  RTCLog(@"Audio session detected glitch, total: %lld", totalNumberOfGlitches);
+}
+
 #pragma mark - Private
 
 - (void)setRemoteVideoTrack:(RTCVideoTrack *)remoteVideoTrack {
@@ -184,6 +202,8 @@
   _videoCallView.localVideoView.captureSession = nil;
   [_captureController stopCapture];
   _captureController = nil;
+  [_fileCaptureController stopCapture];
+  _fileCaptureController = nil;
   [_client disconnect];
   [_delegate viewControllerDidFinish:self];
 }

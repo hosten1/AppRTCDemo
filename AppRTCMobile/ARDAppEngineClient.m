@@ -11,46 +11,55 @@
 #import "ARDAppEngineClient.h"
 
 #import "WebRTC/RTCLogging.h"
-#import <WebRTC/WebRTC.h>
+
 #import "ARDJoinResponse.h"
 #import "ARDMessageResponse.h"
 #import "ARDSignalingMessage.h"
 #import "ARDUtilities.h"
 
 // TODO(tkchin): move these to a configuration object.
-//static NSString * const kARDRoomServerHostUrl =
-//    @"https://appr.tc";
 static NSString * const kARDRoomServerHostUrl =
-@"https://apprtc.diveinedu.com";
+@"https://%@";
 static NSString * const kARDRoomServerJoinFormat =
-    @"https://apprtc.diveinedu.com/join/%@";
+    @"https://%@/join/%@";
 static NSString * const kARDRoomServerJoinFormatLoopback =
-    @"https://appr.tc/join/%@?debug=loopback";
+    @"https://%@/join/%@?debug=loopback";
 static NSString * const kARDRoomServerMessageFormat =
-    @"https://appr.tc/message/%@/%@";
+    @"https://%@/message/%@/%@";
 static NSString * const kARDRoomServerLeaveFormat =
-    @"https://appr.tc/leave/%@/%@";
+    @"https://%@/leave/%@/%@";
 
 static NSString * const kARDAppEngineClientErrorDomain = @"ARDAppEngineClient";
 static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
 
+
+@interface ARDAppEngineClient()
+@property(nonatomic,copy) NSString *  roomServerHostUrl;
+@end
+
+
 @implementation ARDAppEngineClient
 
 #pragma mark - ARDRoomServerClient
+-(void)joinRoomWithRoomId:(NSString *)roomId service:(NSString *)service isLoopback:(BOOL)isLoopback completionHandler:(void (^)(ARDJoinResponse *, NSError *))completionHandler{
 
-- (void)joinRoomWithRoomId:(NSString *)roomId
-                isLoopback:(BOOL)isLoopback
-         completionHandler:(void (^)(ARDJoinResponse *response,
-                                     NSError *error))completionHandler {
   NSParameterAssert(roomId.length);
 
+    if (service == nil) {
+        _roomServerHostUrl = @"appr.tc";
+    
+        
+    }else{
+        _roomServerHostUrl = service;
+
+    }
   NSString *urlString = nil;
   if (isLoopback) {
     urlString =
-        [NSString stringWithFormat:kARDRoomServerJoinFormatLoopback, roomId];
+        [NSString stringWithFormat:kARDRoomServerJoinFormatLoopback,_roomServerHostUrl, roomId];
   } else {
     urlString =
-        [NSString stringWithFormat:kARDRoomServerJoinFormat, roomId];
+        [NSString stringWithFormat:kARDRoomServerJoinFormat,_roomServerHostUrl, roomId];
   }
 
   NSURL *roomURL = [NSURL URLWithString:urlString];
@@ -60,7 +69,6 @@ static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
   __weak ARDAppEngineClient *weakSelf = self;
   [NSURLConnection sendAsyncRequest:request
                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                    ARDAppEngineClient *strongSelf = weakSelf;
                     if (error) {
                       if (completionHandler) {
                         completionHandler(nil, error);
@@ -93,7 +101,7 @@ static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
   NSData *data = [message JSONData];
   NSString *urlString =
       [NSString stringWithFormat:
-          kARDRoomServerMessageFormat, roomId, clientId];
+          kARDRoomServerMessageFormat,_roomServerHostUrl, roomId, clientId];
   NSURL *url = [NSURL URLWithString:urlString];
   RTCLog(@"C->RS POST: %@", message);
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -104,7 +112,6 @@ static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
                   completionHandler:^(NSURLResponse *response,
                                       NSData *data,
                                       NSError *error) {
-    ARDAppEngineClient *strongSelf = weakSelf;
     if (error) {
       if (completionHandler) {
         completionHandler(nil, error);
@@ -133,7 +140,7 @@ static NSInteger const kARDAppEngineClientErrorBadResponse = -1;
   NSParameterAssert(clientId.length);
 
   NSString *urlString =
-      [NSString stringWithFormat:kARDRoomServerLeaveFormat, roomId, clientId];
+      [NSString stringWithFormat:kARDRoomServerLeaveFormat,_roomServerHostUrl, roomId, clientId];
   NSURL *url = [NSURL URLWithString:urlString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
   request.HTTPMethod = @"POST";

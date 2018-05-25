@@ -16,7 +16,7 @@
 
 @protocol ARDRoomServerClient <NSObject>
 
-- (void)joinRoomWithRoomId:(NSString *)roomId
+- (void)joinRoomWithRoomId:(NSString *)roomId service:(NSString*)service
                 isLoopback:(BOOL)isLoopback
          completionHandler:(void (^)(ARDJoinResponse *response,
                                      NSError *error))completionHandler;

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D6B6B3E1F0F1AB900B092E4 /* librtc_sdk_objc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DE4FE6A1F0E10390029BA9F /* librtc_sdk_objc.a */; };
 		6D6B6B401F0F1D8000B092E4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6B6B3F1F0F1D8000B092E4 /* AVFoundation.framework */; };
 		6D6B6B421F0F1DA800B092E4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6B6B411F0F1DA800B092E4 /* AudioToolbox.framework */; };
 		6D6B6B441F0F1DB800B092E4 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6B6B431F0F1DB800B092E4 /* VideoToolbox.framework */; };
@@ -22,7 +21,6 @@
 		6D6B6B5A1F0F54DC00B092E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6B6B591F0F54DC00B092E4 /* CoreVideo.framework */; };
 		6D6B6B5C1F0F54E800B092E4 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6B6B5B1F0F54E800B092E4 /* CoreAudio.framework */; };
 		6D6B6B691F0F5B0500B092E4 /* RTCAudioSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6B6B631F0F5B0500B092E4 /* RTCAudioSessionConfiguration.m */; };
-		6D6B6B6E1F0F5E0300B092E4 /* UIDevice+RTCDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D6B6B6D1F0F5E0300B092E4 /* UIDevice+RTCDevice.mm */; };
 		6DE4FDBA1F0E0E840029BA9F /* AppRTCMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE4FDB91F0E0E840029BA9F /* AppRTCMobileTests.m */; };
 		6DE4FE2E1F0E0F040029BA9F /* ARDAppClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE4FDC51F0E0F040029BA9F /* ARDAppClient.m */; };
 		6DE4FE2F1F0E0F040029BA9F /* ARDAppEngineClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE4FDC81F0E0F040029BA9F /* ARDAppEngineClient.m */; };
@@ -73,6 +71,10 @@
 		6DE4FE631F0E0F040029BA9F /* RTCSessionDescription+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE4FE241F0E0F040029BA9F /* RTCSessionDescription+JSON.m */; };
 		6DE4FE671F0E0F040029BA9F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 6DE4FE2B1F0E0F040029BA9F /* LICENSE */; };
 		6DE4FE681F0E0F040029BA9F /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE4FE2D1F0E0F040029BA9F /* SRWebSocket.m */; };
+		6DFEAEBE208D7F0E00950F31 /* ARDFileCaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFEAEBC208D7F0D00950F31 /* ARDFileCaptureController.m */; };
+		6DFEAEC1208D7F2800950F31 /* RTCVideoCodecInfo+HumanReadable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFEAEC0208D7F2700950F31 /* RTCVideoCodecInfo+HumanReadable.m */; };
+		6DFEAECB208EBF6100950F31 /* WebRTC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFEAECA208EB7F300950F31 /* WebRTC.framework */; };
+		6DFEAECC208EBF6100950F31 /* WebRTC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFEAECA208EB7F300950F31 /* WebRTC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,20 @@
 			remoteInfo = AppRTCMobile;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6DFEAEC4208D7FFC00950F31 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6DFEAECC208EBF6100950F31 /* WebRTC.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6D6B6B3F1F0F1D8000B092E4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -101,8 +117,6 @@
 		6D6B6B5B1F0F54E800B092E4 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		6D6B6B621F0F5B0500B092E4 /* RTCAudioSessionConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTCAudioSessionConfiguration.h; sourceTree = "<group>"; };
 		6D6B6B631F0F5B0500B092E4 /* RTCAudioSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTCAudioSessionConfiguration.m; sourceTree = "<group>"; };
-		6D6B6B6C1F0F5E0300B092E4 /* UIDevice+RTCDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+RTCDevice.h"; sourceTree = "<group>"; };
-		6D6B6B6D1F0F5E0300B092E4 /* UIDevice+RTCDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIDevice+RTCDevice.mm"; sourceTree = "<group>"; };
 		6DE4FD9C1F0E0E830029BA9F /* AppRTCMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppRTCMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DE4FDB51F0E0E840029BA9F /* AppRTCMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppRTCMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DE4FDB91F0E0E840029BA9F /* AppRTCMobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppRTCMobileTests.m; sourceTree = "<group>"; };
@@ -191,7 +205,11 @@
 		6DE4FE2B1F0E0F040029BA9F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		6DE4FE2C1F0E0F040029BA9F /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		6DE4FE2D1F0E0F040029BA9F /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
-		6DE4FE6A1F0E10390029BA9F /* librtc_sdk_objc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librtc_sdk_objc.a; path = lib/librtc_sdk_objc.a; sourceTree = "<group>"; };
+		6DFEAEBC208D7F0D00950F31 /* ARDFileCaptureController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARDFileCaptureController.m; sourceTree = "<group>"; };
+		6DFEAEBD208D7F0E00950F31 /* ARDFileCaptureController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARDFileCaptureController.h; sourceTree = "<group>"; };
+		6DFEAEBF208D7F2700950F31 /* RTCVideoCodecInfo+HumanReadable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RTCVideoCodecInfo+HumanReadable.h"; sourceTree = "<group>"; };
+		6DFEAEC0208D7F2700950F31 /* RTCVideoCodecInfo+HumanReadable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "RTCVideoCodecInfo+HumanReadable.m"; sourceTree = "<group>"; };
+		6DFEAECA208EB7F300950F31 /* WebRTC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebRTC.framework; path = lib/WebRTC.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +220,7 @@
 				6D6B6B5C1F0F54E800B092E4 /* CoreAudio.framework in Frameworks */,
 				6D6B6B5A1F0F54DC00B092E4 /* CoreVideo.framework in Frameworks */,
 				6D6B6B581F0F522900B092E4 /* Security.framework in Frameworks */,
+				6DFEAECB208EBF6100950F31 /* WebRTC.framework in Frameworks */,
 				6D6B6B4C1F0F1DF100B092E4 /* MediaToolbox.framework in Frameworks */,
 				6D6B6B561F0F51E500B092E4 /* GLKit.framework in Frameworks */,
 				6D6B6B541F0F51C800B092E4 /* libicucore.tbd in Frameworks */,
@@ -212,7 +231,6 @@
 				6D6B6B441F0F1DB800B092E4 /* VideoToolbox.framework in Frameworks */,
 				6D6B6B421F0F1DA800B092E4 /* AudioToolbox.framework in Frameworks */,
 				6D6B6B401F0F1D8000B092E4 /* AVFoundation.framework in Frameworks */,
-				6D6B6B3E1F0F1AB900B092E4 /* librtc_sdk_objc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,8 +247,6 @@
 		6D6B6B5D1F0F5B0500B092E4 /* objc */ = {
 			isa = PBXGroup;
 			children = (
-				6D6B6B6C1F0F5E0300B092E4 /* UIDevice+RTCDevice.h */,
-				6D6B6B6D1F0F5E0300B092E4 /* UIDevice+RTCDevice.mm */,
 				6D6B6B621F0F5B0500B092E4 /* RTCAudioSessionConfiguration.h */,
 				6D6B6B631F0F5B0500B092E4 /* RTCAudioSessionConfiguration.m */,
 			);
@@ -351,6 +367,10 @@
 		6DE4FDF01F0E0F040029BA9F /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				6DFEAEBF208D7F2700950F31 /* RTCVideoCodecInfo+HumanReadable.h */,
+				6DFEAEC0208D7F2700950F31 /* RTCVideoCodecInfo+HumanReadable.m */,
+				6DFEAEBD208D7F0E00950F31 /* ARDFileCaptureController.h */,
+				6DFEAEBC208D7F0D00950F31 /* ARDFileCaptureController.m */,
 				6DE4FDF11F0E0F040029BA9F /* AppRTCMobile-Prefix.pch */,
 				6DE4FDF21F0E0F040029BA9F /* ARDAppDelegate.h */,
 				6DE4FDF31F0E0F040029BA9F /* ARDAppDelegate.m */,
@@ -416,6 +436,7 @@
 		6DE4FE691F0E10360029BA9F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6DFEAECA208EB7F300950F31 /* WebRTC.framework */,
 				6D6B6B5B1F0F54E800B092E4 /* CoreAudio.framework */,
 				6D6B6B591F0F54DC00B092E4 /* CoreVideo.framework */,
 				6D6B6B571F0F522900B092E4 /* Security.framework */,
@@ -429,7 +450,6 @@
 				6D6B6B431F0F1DB800B092E4 /* VideoToolbox.framework */,
 				6D6B6B411F0F1DA800B092E4 /* AudioToolbox.framework */,
 				6D6B6B3F1F0F1D8000B092E4 /* AVFoundation.framework */,
-				6DE4FE6A1F0E10390029BA9F /* librtc_sdk_objc.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -444,6 +464,7 @@
 				6DE4FD981F0E0E830029BA9F /* Sources */,
 				6DE4FD991F0E0E830029BA9F /* Frameworks */,
 				6DE4FD9A1F0E0E830029BA9F /* Resources */,
+				6DFEAEC4208D7FFC00950F31 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -563,7 +584,6 @@
 				6DE4FE2E1F0E0F040029BA9F /* ARDAppClient.m in Sources */,
 				6DE4FE381F0E0F040029BA9F /* ARDStatsBuilder.m in Sources */,
 				6DE4FE391F0E0F040029BA9F /* ARDTURNClient.m in Sources */,
-				6D6B6B6E1F0F5E0300B092E4 /* UIDevice+RTCDevice.mm in Sources */,
 				6DE4FE3E1F0E0F040029BA9F /* ARDUtilities.m in Sources */,
 				6DE4FE461F0E0F040029BA9F /* ARDVideoCallView.m in Sources */,
 				6DE4FE331F0E0F040029BA9F /* ARDMessageResponse.m in Sources */,
@@ -575,11 +595,13 @@
 				6DE4FE3A1F0E0F040029BA9F /* ARDWebSocketChannel.m in Sources */,
 				6DE4FE321F0E0F040029BA9F /* ARDJoinResponse.m in Sources */,
 				6DE4FE431F0E0F040029BA9F /* ARDMainViewController.m in Sources */,
+				6DFEAEBE208D7F0E00950F31 /* ARDFileCaptureController.m in Sources */,
 				6DE4FE681F0E0F040029BA9F /* SRWebSocket.m in Sources */,
 				6DE4FE591F0E0F040029BA9F /* UIImage+ARDUtilities.m in Sources */,
 				6DE4FE361F0E0F040029BA9F /* ARDSettingsStore.m in Sources */,
 				6DE4FE411F0E0F040029BA9F /* ARDAppDelegate.m in Sources */,
 				6DE4FE441F0E0F040029BA9F /* ARDSettingsViewController.m in Sources */,
+				6DFEAEC1208D7F2800950F31 /* RTCVideoCodecInfo+HumanReadable.m in Sources */,
 				6DE4FE451F0E0F040029BA9F /* ARDStatsView.m in Sources */,
 				6DE4FE471F0E0F040029BA9F /* ARDVideoCallViewController.m in Sources */,
 				6D6B6B691F0F5B0500B092E4 /* RTCAudioSessionConfiguration.m in Sources */,
@@ -723,25 +745,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WBAAXLQG52;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
 					"$(PROJECT_DIR)/lib",
 				);
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../avRelation/AV/Webrtc/webrtc_ios/src\"",
-					"\"$(SRCROOT)/Headers\"",
-				);
-				INFOPLIST_FILE = AppRTCMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = /Users/vrv2/Documents/AppRTCDemo/AppRTCMobile/ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib",
+					"\"$(SRCROOT)/lib\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.vrv.AppRTCMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -749,25 +772,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WBAAXLQG52;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
 					"$(PROJECT_DIR)/lib",
 				);
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../avRelation/AV/Webrtc/webrtc_ios/src\"",
-					"\"$(SRCROOT)/Headers\"",
-				);
-				INFOPLIST_FILE = AppRTCMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = /Users/vrv2/Documents/AppRTCDemo/AppRTCMobile/ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib",
+					"\"$(SRCROOT)/lib\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.vrv.AppRTCMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

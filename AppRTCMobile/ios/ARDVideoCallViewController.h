@@ -21,11 +21,8 @@
 
 @property(nonatomic, weak) id<ARDVideoCallViewControllerDelegate> delegate;
 
-- (instancetype)initForRoom:(NSString *)room
+- (instancetype)initForRoom:(NSString *)room service:(NSString *)serVice
                  isLoopback:(BOOL)isLoopback
-                isAudioOnly:(BOOL)isAudioOnly
-          shouldMakeAecDump:(BOOL)shouldMakeAecDump
-      shouldUseLevelControl:(BOOL)shouldUseLevelControl
                    delegate:(id<ARDVideoCallViewControllerDelegate>)delegate;
 
 @end

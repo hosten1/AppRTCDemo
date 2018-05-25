@@ -9,8 +9,6 @@
  */
 
 #import <Foundation/Foundation.h>
-
-#import "WebRTC/RTCCameraVideoCapturer.h"
 #import "WebRTC/RTCPeerConnection.h"
 #import "WebRTC/RTCVideoTrack.h"
 
@@ -26,6 +24,8 @@ typedef NS_ENUM(NSInteger, ARDAppClientState) {
 @class ARDAppClient;
 @class ARDSettingsModel;
 @class RTCMediaConstraints;
+@class RTCCameraVideoCapturer;
+@class RTCFileVideoCapturer;
 
 // The delegate is informed of pertinent events and will be called on the
 // main queue.
@@ -52,6 +52,10 @@ typedef NS_ENUM(NSInteger, ARDAppClientState) {
 - (void)appClient:(ARDAppClient *)client
       didGetStats:(NSArray *)stats;
 
+@optional
+- (void)appClient:(ARDAppClient *)client
+didCreateLocalFileCapturer:(RTCFileVideoCapturer *)fileCapturer;
+
 @end
 
 // Handles connections to the AppRTC server for a given room. Methods on this
@@ -65,21 +69,14 @@ typedef NS_ENUM(NSInteger, ARDAppClientState) {
 @property(nonatomic, weak) id<ARDAppClientDelegate> delegate;
 // Convenience constructor since all expected use cases will need a delegate
 // in order to receive remote tracks.
-- (instancetype)initWithDelegate:(id<ARDAppClientDelegate>)delegate;
+- (instancetype)initWithService:(NSString*)servicev delegate:(id<ARDAppClientDelegate>)delegate;
 
 // Establishes a connection with the AppRTC servers for the given room id.
 // |settings| is an object containing settings such as video codec for the call.
 // If |isLoopback| is true, the call will connect to itself.
-// If |isAudioOnly| is true, video will be disabled for the call.
-// If |shouldMakeAecDump| is true, an aecdump will be created for the call.
-// If |shouldUseLevelControl| is true, the level controller will be used
-// in the call.
 - (void)connectToRoomWithId:(NSString *)roomId
                    settings:(ARDSettingsModel *)settings
-                 isLoopback:(BOOL)isLoopback
-                isAudioOnly:(BOOL)isAudioOnly
-          shouldMakeAecDump:(BOOL)shouldMakeAecDump
-      shouldUseLevelControl:(BOOL)shouldUseLevelControl;
+                 isLoopback:(BOOL)isLoopback;
 
 // Disconnects from the AppRTC servers and any connected clients.
 - (void)disconnect;

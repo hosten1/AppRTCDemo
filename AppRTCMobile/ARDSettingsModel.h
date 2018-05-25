@@ -10,7 +10,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "WebRTC/RTCVideoCodec.h"
+
 NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Model class for user defined settings.
  *
@@ -50,12 +53,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns array of available video codecs.
  */
-- (NSArray<NSString *> *)availableVideoCodecs;
+- (NSArray<RTCVideoCodecInfo *> *)availableVideoCodecs;
 
 /**
  * Returns current video codec setting from store if present or default (H264) otherwise.
  */
-- (NSString *)currentVideoCodecSettingFromStore;
+- (RTCVideoCodecInfo *)currentVideoCodecSettingFromStore;
 
 /**
  * Stores the provided video codec setting into the store.
@@ -65,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param video codec settings the string to be stored.
  * @return YES/NO depending on success.
  */
-- (BOOL)storeVideoCodecSetting:(NSString *)videoCodec;
+- (BOOL)storeVideoCodecSetting:(RTCVideoCodecInfo *)videoCodec;
 
 /**
  * Returns current max bitrate setting from store if present.
@@ -78,6 +81,56 @@ NS_ASSUME_NONNULL_BEGIN
  * @param bitrate NSNumber representation of the max bitrate value.
  */
 - (void)storeMaxBitrateSetting:(nullable NSNumber *)bitrate;
+
+/**
+ * Returns current audio only setting from store if present or default (NO) otherwise.
+ */
+- (BOOL)currentAudioOnlySettingFromStore;
+
+/**
+ * Stores the provided audio only setting into the store.
+ *
+ * @param setting the boolean value to be stored.
+ */
+- (void)storeAudioOnlySetting:(BOOL)audioOnly;
+
+/**
+ * Returns current create AecDump setting from store if present or default (NO) otherwise.
+ */
+- (BOOL)currentCreateAecDumpSettingFromStore;
+
+/**
+ * Stores the provided create AecDump setting into the store.
+ *
+ * @param setting the boolean value to be stored.
+ */
+- (void)storeCreateAecDumpSetting:(BOOL)createAecDump;
+
+/**
+ * Returns current setting whether to use level controller from store if present or default (NO)
+ * otherwise.
+ */
+- (BOOL)currentUseLevelControllerSettingFromStore;
+
+/**
+ * Stores the provided use level controller setting into the store.
+ *
+ * @param setting the boolean value to be stored.
+ */
+- (void)storeUseLevelControllerSetting:(BOOL)useLevelController;
+
+/**
+ * Returns current setting whether to use manual audio config from store if present or default (YES)
+ * otherwise.
+ */
+- (BOOL)currentUseManualAudioConfigSettingFromStore;
+
+/**
+ * Stores the provided use manual audio config setting into the store.
+ *
+ * @param setting the boolean value to be stored.
+ */
+- (void)storeUseManualAudioConfigSetting:(BOOL)useManualAudioConfig;
 
 @end
 NS_ASSUME_NONNULL_END
