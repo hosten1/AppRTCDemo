@@ -113,7 +113,7 @@ static CGFloat const kCallControlMargin = 8;
     return size;
 }
 
-- (NSString *)roomText {
+- (NSString *)serviceText {
     return _serviceTextFiled.text;
 }
 
