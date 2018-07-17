@@ -41,14 +41,15 @@
 @synthesize remoteVideoTrack = _remoteVideoTrack;
 @synthesize delegate = _delegate;
 
-- (instancetype)initForRoom:(NSString *)room service:(NSString *)serVice isLoopback:(BOOL)isLoopback delegate:(id<ARDVideoCallViewControllerDelegate>)delegate{
-
+- (instancetype)initForRoom:(NSString *)room
+                 isLoopback:(BOOL)isLoopback
+                   delegate:(id<ARDVideoCallViewControllerDelegate>)delegate {
   if (self = [super init]) {
     ARDSettingsModel *settingsModel = [[ARDSettingsModel alloc] init];
     _delegate = delegate;
 
-    _client = [[ARDAppClient alloc] initWithService:serVice delegate:self];
-    [_client connectToRoomWithId:room  settings:settingsModel isLoopback:isLoopback];
+    _client = [[ARDAppClient alloc] initWithDelegate:self];
+    [_client connectToRoomWithId:room settings:settingsModel isLoopback:isLoopback];
   }
   return self;
 }
@@ -123,7 +124,11 @@
 - (void)appClient:(ARDAppClient *)client
     didReceiveRemoteVideoTrack:(RTCVideoTrack *)remoteVideoTrack {
   self.remoteVideoTrack = remoteVideoTrack;
-  _videoCallView.statusLabel.hidden = YES;
+  __weak ARDVideoCallViewController *weakSelf = self;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    ARDVideoCallViewController *strongSelf = weakSelf;
+    strongSelf.videoCallView.statusLabel.hidden = YES;
+  });
 }
 
 - (void)appClient:(ARDAppClient *)client

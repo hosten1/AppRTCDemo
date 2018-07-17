@@ -21,6 +21,7 @@
 #import "WebRTC/RTCMediaStream.h"
 #import "WebRTC/RTCPeerConnectionFactory.h"
 #import "WebRTC/RTCRtpSender.h"
+#import "WebRTC/RTCRtpTransceiver.h"
 #import "WebRTC/RTCTracing.h"
 #import "WebRTC/RTCVideoCodecFactory.h"
 #import "WebRTC/RTCVideoSource.h"
@@ -37,7 +38,7 @@
 #import "RTCIceCandidate+JSON.h"
 #import "RTCSessionDescription+JSON.h"
 
-static NSString * const kARDIceServerRequestUrl = @"https://172.16.16.123:8080/params";
+static NSString * const kARDIceServerRequestUrl = @"https://appr.tc/params";
 
 static NSString * const kARDAppClientErrorDomain = @"ARDAppClient";
 static NSInteger const kARDAppClientErrorUnknown = -1;
@@ -99,10 +100,6 @@ static int const kKbpsMultiplier = 1000;
 
 @end
 
-@interface ARDAppClient()
-@property(nonatomic,copy)NSString*  IceServerRequestUrl;
-@end
-
 @implementation ARDAppClient {
   RTCFileLogger *_fileLogger;
   ARDTimerProxy *_statsTimer;
@@ -133,23 +130,14 @@ static int const kKbpsMultiplier = 1000;
 @synthesize isLoopback = _isLoopback;
 
 - (instancetype)init {
-  return [self initWithService:nil delegate:nil];
+  return [self initWithDelegate:nil];
 }
 
-- (instancetype)initWithService:(NSString *)servicev delegate:(id<ARDAppClientDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ARDAppClientDelegate>)delegate {
   if (self = [super init]) {
-      if (servicev == nil) {
-          _IceServerRequestUrl = kARDIceServerRequestUrl;
-          //          static NSString * const kARDIceServerRequestUrl = @"https://172.16.16.123:8080/params";
-
-      }else{
-          _IceServerRequestUrl = [NSString stringWithFormat:@"https://%@/params",servicev];
-      }
-      _IceServerRequestUrl = servicev;
     _roomServerClient = [[ARDAppEngineClient alloc] init];
     _delegate = delegate;
-
-    NSURL *turnRequestURL = [NSURL URLWithString:_IceServerRequestUrl];
+    NSURL *turnRequestURL = [NSURL URLWithString:kARDIceServerRequestUrl];
     _turnClient = [[ARDTURNClient alloc] initWithURL:turnRequestURL];
     [self configure];
   }
@@ -221,7 +209,10 @@ static int const kKbpsMultiplier = 1000;
   _state = state;
   [_delegate appClient:self didChangeState:_state];
 }
--(void)connectToRoomWithId:(NSString *)roomId settings:(ARDSettingsModel *)settings isLoopback:(BOOL)isLoopback{
+
+- (void)connectToRoomWithId:(NSString *)roomId
+                   settings:(ARDSettingsModel *)settings
+                 isLoopback:(BOOL)isLoopback {
   NSParameterAssert(roomId.length);
   NSParameterAssert(_state == kARDAppClientStateDisconnected);
   _settings = settings;
@@ -256,7 +247,9 @@ static int const kKbpsMultiplier = 1000;
   }];
 
   // Join room on room server.
-  [_roomServerClient joinRoomWithRoomId:roomId service:_IceServerRequestUrl isLoopback:isLoopback  completionHandler:^(ARDJoinResponse *response, NSError *error) {
+  [_roomServerClient joinRoomWithRoomId:roomId
+                             isLoopback:isLoopback
+      completionHandler:^(ARDJoinResponse *response, NSError *error) {
     ARDAppClient *strongSelf = weakSelf;
     if (error) {
       [strongSelf.delegate appClient:strongSelf didError:error];
@@ -379,15 +372,15 @@ static int const kKbpsMultiplier = 1000;
 
 - (void)peerConnection:(RTCPeerConnection *)peerConnection
           didAddStream:(RTCMediaStream *)stream {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    RTCLog(@"Received %lu video tracks and %lu audio tracks",
-        (unsigned long)stream.videoTracks.count,
-        (unsigned long)stream.audioTracks.count);
-    if (stream.videoTracks.count) {
-      RTCVideoTrack *videoTrack = stream.videoTracks[0];
-      [_delegate appClient:self didReceiveRemoteVideoTrack:videoTrack];
-    }
-  });
+  RTCLog(@"Stream with %lu video tracks and %lu audio tracks was added.",
+         (unsigned long)stream.videoTracks.count,
+         (unsigned long)stream.audioTracks.count);
+}
+
+- (void)peerConnection:(RTCPeerConnection *)peerConnection
+    didStartReceivingOnTransceiver:(RTCRtpTransceiver *)transceiver {
+  RTCMediaStreamTrack *track = transceiver.receiver.track;
+  RTCLog(@"Now receiving %@ on track %@.", track.kind, track.trackId);
 }
 
 - (void)peerConnection:(RTCPeerConnection *)peerConnection
@@ -538,6 +531,7 @@ static int const kKbpsMultiplier = 1000;
   RTCMediaConstraints *constraints = [self defaultPeerConnectionConstraints];
   RTCConfiguration *config = [[RTCConfiguration alloc] init];
   config.iceServers = _iceServers;
+  config.sdpSemantics = RTCSdpSemanticsUnifiedPlan;
   _peerConnection = [_factory peerConnectionWithConfiguration:config
                                                   constraints:constraints
                                                      delegate:self];
@@ -684,18 +678,30 @@ static int const kKbpsMultiplier = 1000;
   [sender setParameters:parametersToModify];
 }
 
+- (RTCRtpTransceiver *)videoTransceiver {
+  for (RTCRtpTransceiver *transceiver in _peerConnection.transceivers) {
+    if (transceiver.mediaType == RTCRtpMediaTypeVideo) {
+      return transceiver;
+    }
+  }
+  return nil;
+}
+
 - (void)createMediaSenders {
   RTCMediaConstraints *constraints = [self defaultMediaAudioConstraints];
   RTCAudioSource *source = [_factory audioSourceWithConstraints:constraints];
   RTCAudioTrack *track = [_factory audioTrackWithSource:source
                                                 trackId:kARDAudioTrackId];
-  RTCMediaStream *stream = [_factory mediaStreamWithStreamId:kARDMediaStreamId];
-  [stream addAudioTrack:track];
+  [_peerConnection addTrack:track streamIds:@[ kARDMediaStreamId ]];
   _localVideoTrack = [self createLocalVideoTrack];
   if (_localVideoTrack) {
-    [stream addVideoTrack:_localVideoTrack];
+    [_peerConnection addTrack:_localVideoTrack streamIds:@[ kARDMediaStreamId ]];
+    // We can set up rendering for the remote track right away since the transceiver already has an
+    // RTCRtpReceiver with a track. The track will automatically get unmuted and produce frames
+    // once RTP is received.
+    RTCVideoTrack *track = (RTCVideoTrack *)([self videoTransceiver].receiver.track);
+    [_delegate appClient:self didReceiveRemoteVideoTrack:track];
   }
-  [_peerConnection addStream:stream];
 }
 
 - (RTCVideoTrack *)createLocalVideoTrack {
@@ -748,10 +754,7 @@ static int const kKbpsMultiplier = 1000;
 #pragma mark - Defaults
 
  - (RTCMediaConstraints *)defaultMediaAudioConstraints {
-   NSString *valueLevelControl = [_settings currentUseLevelControllerSettingFromStore] ?
-       kRTCMediaConstraintsValueTrue :
-       kRTCMediaConstraintsValueFalse;
-   NSDictionary *mandatoryConstraints = @{ kRTCMediaConstraintsLevelControl : valueLevelControl };
+   NSDictionary *mandatoryConstraints = @{};
    RTCMediaConstraints *constraints =
        [[RTCMediaConstraints alloc] initWithMandatoryConstraints:mandatoryConstraints
                                              optionalConstraints:nil];

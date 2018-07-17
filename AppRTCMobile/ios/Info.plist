@@ -2,13 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-		<key>NSExceptionDomains</key>
-		<dict/>
-	</dict>
 	<key>BuildMachineOSBuild</key>
 	<string>12E55</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -30,7 +23,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.google.AppRTCMobile</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -47,23 +40,17 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
-	<key>UIStatusBarTintParameters</key>
+	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>UINavigationBar</key>
-		<dict>
-			<key>Style</key>
-			<string>UIBarStyleDefault</string>
-			<key>Translucent</key>
-			<false/>
-		</dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict/>
 	</dict>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access needed for video calling</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone access needed for video calling</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Regular.ttf</string>
@@ -73,10 +60,6 @@
 		<string>audio</string>
 		<string>voip</string>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>Camera access needed for video calling</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone access needed for video calling</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchImages</key>
@@ -111,6 +94,23 @@
 			<key>UILaunchImageSize</key>
 			<string>{414, 736}</string>
 		</dict>
+	</array>
+	<key>UIStatusBarTintParameters</key>
+	<dict>
+		<key>UINavigationBar</key>
+		<dict>
+			<key>Style</key>
+			<string>UIBarStyleDefault</string>
+			<key>Translucent</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 </dict>
 </plist>

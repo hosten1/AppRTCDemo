@@ -69,7 +69,7 @@ didCreateLocalFileCapturer:(RTCFileVideoCapturer *)fileCapturer;
 @property(nonatomic, weak) id<ARDAppClientDelegate> delegate;
 // Convenience constructor since all expected use cases will need a delegate
 // in order to receive remote tracks.
-- (instancetype)initWithService:(NSString*)servicev delegate:(id<ARDAppClientDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ARDAppClientDelegate>)delegate;
 
 // Establishes a connection with the AppRTC servers for the given room id.
 // |settings| is an object containing settings such as video codec for the call.

@@ -44,7 +44,7 @@ static NSString *const loopbackLaunchProcessArgument = @"loopback";
 - (void)viewDidLoad {
   [super viewDidLoad];
   if ([[[NSProcessInfo processInfo] arguments] containsObject:loopbackLaunchProcessArgument]) {
-    [self mainView:nil didInputRoom:@"" Service:@"" isLoopback:YES];
+    [self mainView:nil didInputRoom:@"" isLoopback:YES];
   }
 }
 
@@ -84,7 +84,8 @@ static NSString *const loopbackLaunchProcessArgument = @"loopback";
 }
 
 #pragma mark - ARDMainViewDelegate
-- (void)mainView:(ARDMainView *)mainView didInputRoom:(NSString *)room Service:(NSString *)service isLoopback:(BOOL)isLoopback{
+
+- (void)mainView:(ARDMainView *)mainView didInputRoom:(NSString *)room isLoopback:(BOOL)isLoopback {
   if (!room.length) {
     if (isLoopback) {
       // If this is a loopback call, allow a generated room name.
@@ -128,7 +129,7 @@ static NSString *const loopbackLaunchProcessArgument = @"loopback";
   // Kick off the video call.
   ARDVideoCallViewController *videoCallViewController =
       [[ARDVideoCallViewController alloc] initForRoom:trimmedRoom
-                                              service:service isLoopback:isLoopback
+                                           isLoopback:isLoopback
                                              delegate:self];
   videoCallViewController.modalTransitionStyle =
       UIModalTransitionStyleCrossDissolve;
@@ -151,12 +152,9 @@ static NSString *const loopbackLaunchProcessArgument = @"loopback";
 - (void)viewControllerDidFinish:(ARDVideoCallViewController *)viewController {
   if (![viewController isBeingDismissed]) {
     RTCLog(@"Dismissing VC");
-      dispatch_async(dispatch_get_main_queue(), ^{
-          [self dismissViewControllerAnimated:YES completion:^{
-              [self restartAudioPlayerIfNeeded];
-          }];
-      });
-    
+    [self dismissViewControllerAnimated:YES completion:^{
+      [self restartAudioPlayerIfNeeded];
+    }];
   }
   RTCAudioSession *session = [RTCAudioSession sharedInstance];
   session.isAudioEnabled = NO;
