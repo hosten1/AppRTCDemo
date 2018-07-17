@@ -15,21 +15,12 @@
 #import <WebRTC/RTCVideoCapturer.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@class RTCCameraVideoCapturer;
-RTC_EXPORT
-@protocol RTCCameraVideoCapturerDelegate <NSObject>
-//@optional
-- (void)capturer:(RTCCameraVideoCapturer *)capturer didCaptureOutput:(AVCaptureOutput *)captureOutput outputSampleBuffer:(CMSampleBufferRef) sampleBuffer fromConnection:(AVCaptureConnection *)connection;
-@end
 
 RTC_EXPORT
 // Camera capture that implements RTCVideoCapturer. Delivers frames to a RTCVideoCapturerDelegate
 // (usually RTCVideoSource).
 @interface RTCCameraVideoCapturer : RTCVideoCapturer
-//红薯藤
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-missing-property-synthesis"
-@property(nonatomic,assign) id<RTCCameraVideoCapturerDelegate> delegateGpu;
+
 // Capture session that is used for capturing. Valid from initialization to dealloc.
 @property(readonly, nonatomic) AVCaptureSession *captureSession;
 
@@ -58,10 +49,6 @@ RTC_EXPORT
                            fps:(NSInteger)fps;
 // Stops the capture session asynchronously.
 - (void)stopCapture;
-//(ymluo:导出摄像头采集数据)
-- (void)captureOutputFromGPUImage:(nullable AVCaptureOutput *)captureOutput
-          didOutputPixelBufferRef:(nonnull CVPixelBufferRef)pixelBuffer
-                   fromConnection:(nullable AVCaptureConnection *)connection OutputSampleBuffer:(nullable CMSampleBufferRef)sampleBuffer;
 
 @end
 

@@ -11,7 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 
-#import "WebRTC/RTCMacros.h"
+#import <WebRTC/RTCMacros.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,14 +40,14 @@ RTC_EXPORT
  *  interruption event.
  */
 - (void)rtcAudioSessionDidEndInterruption:(RTCAudioSession *)session
-                      shouldResumeSession:(BOOL)shouldResumeSession;
+                   shouldResumeSession:(BOOL)shouldResumeSession;
 
 /** Called on a system notification thread when AVAudioSession changes the
  *  route.
  */
 - (void)rtcAudioSessionDidChangeRoute:(RTCAudioSession *)session
-                               reason:(AVAudioSessionRouteChangeReason)reason
-                        previousRoute:(AVAudioSessionRouteDescription *)previousRoute;
+           reason:(AVAudioSessionRouteChangeReason)reason
+    previousRoute:(AVAudioSessionRouteDescription *)previousRoute;
 
 /** Called on a system notification thread when AVAudioSession media server
  *  terminates.
@@ -62,7 +62,7 @@ RTC_EXPORT
 // TODO(tkchin): Maybe handle SilenceSecondaryAudioHintNotification.
 
 - (void)rtcAudioSession:(RTCAudioSession *)session
-didChangeCanPlayOrRecord:(BOOL)canPlayOrRecord;
+    didChangeCanPlayOrRecord:(BOOL)canPlayOrRecord;
 
 /** Called on a WebRTC thread when the audio device is notified to begin
  *  playback or recording.
@@ -76,13 +76,27 @@ didChangeCanPlayOrRecord:(BOOL)canPlayOrRecord;
 
 /** Called when the AVAudioSession output volume value changes. */
 - (void)rtcAudioSession:(RTCAudioSession *)audioSession
-  didChangeOutputVolume:(float)outputVolume;
+    didChangeOutputVolume:(float)outputVolume;
 
 /** Called when the audio device detects a playout glitch. The argument is the
  *  number of glitches detected so far in the current audio playout session.
  */
 - (void)rtcAudioSession:(RTCAudioSession *)audioSession
- didDetectPlayoutGlitch:(int64_t)totalNumberOfGlitches;
+    didDetectPlayoutGlitch:(int64_t)totalNumberOfGlitches;
+
+/** Called when the audio session is about to change the active state.
+ */
+- (void)rtcAudioSession:(RTCAudioSession *)audioSession willSetActive:(BOOL)active;
+
+/** Called after the audio session sucessfully changed the active state.
+ */
+- (void)rtcAudioSession:(RTCAudioSession *)audioSession didSetActive:(BOOL)active;
+
+/** Called after the audio session failed to change the active state.
+ */
+- (void)rtcAudioSession:(RTCAudioSession *)audioSession
+    failedToSetActive:(BOOL)active
+                error:(NSError *)error;
 
 @end
 
@@ -157,13 +171,13 @@ RTC_EXPORT
 @property(readonly) BOOL inputGainSettable;
 @property(readonly) BOOL inputAvailable;
 @property(readonly, nullable)
-NSArray<AVAudioSessionDataSourceDescription *> * inputDataSources;
+    NSArray<AVAudioSessionDataSourceDescription *> * inputDataSources;
 @property(readonly, nullable)
-AVAudioSessionDataSourceDescription *inputDataSource;
+  AVAudioSessionDataSourceDescription *inputDataSource;
 @property(readonly, nullable)
-NSArray<AVAudioSessionDataSourceDescription *> * outputDataSources;
+    NSArray<AVAudioSessionDataSourceDescription *> * outputDataSources;
 @property(readonly, nullable)
-AVAudioSessionDataSourceDescription *outputDataSource;
+    AVAudioSessionDataSourceDescription *outputDataSource;
 @property(readonly) double sampleRate;
 @property(readonly) double preferredSampleRate;
 @property(readonly) NSInteger inputNumberOfChannels;
