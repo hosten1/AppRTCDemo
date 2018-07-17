@@ -40,13 +40,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-		<key>NSExceptionDomains</key>
-		<dict/>
-	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access needed for video calling</string>
 	<key>NSMicrophoneUsageDescription</key>

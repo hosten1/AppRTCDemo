@@ -30,11 +30,11 @@ typedef enum SRStatusCode : NSInteger {
     SRStatusCodeProtocolError = 1002,
     SRStatusCodeUnhandledType = 1003,
     // 1004 reserved.
-    SRStatusNoStatusReceived   = 1005,
+    SRStatusNoStatusReceived = 1005,
     // 1004-1006 reserved.
-    SRStatusCodeInvalidUTF8    = 1007,
+    SRStatusCodeInvalidUTF8 = 1007,
     SRStatusCodePolicyViolated = 1008,
-    SRStatusCodeMessageTooBig  = 1009,
+    SRStatusCodeMessageTooBig = 1009,
 } SRStatusCode;
 
 @class SRWebSocket;
